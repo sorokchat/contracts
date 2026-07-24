@@ -6,7 +6,7 @@
   "files": ["dist"],
   "author": "sorokovsky",
   "scripts": {
-    "clean": "rm -rf dist",
+    "clean": "rimraf dist",
     "build": "tsc",
     "prepublishOnly": "npm run clean && npm run build"
   },
@@ -29,9 +29,15 @@
     "typescript": "^7.0.2"
   },
   "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.js"
+  ".": {
+    "import": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "require": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     }
   }
+}
 }
