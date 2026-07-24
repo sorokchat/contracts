@@ -1,9 +1,14 @@
 {
   "name": "@sorokchat/contracts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Контракти для сервісу sorokchat",
-  "keywords": ["Контракти", "sorokchat"],
-  "files": ["dist"],
+  "keywords": [
+    "Контракти",
+    "sorokchat"
+  ],
+  "files": [
+    "dist"
+  ],
   "author": "sorokovsky",
   "scripts": {
     "clean": "rimraf dist",
@@ -29,15 +34,15 @@
     "typescript": "^7.0.2"
   },
   "exports": {
-  ".": {
-    "import": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    },
-    "require": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
     }
   }
-}
 }
