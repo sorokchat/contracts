@@ -3,4 +3,4 @@ export {
   NewUserSchema,
   type UpdateUserPayload,
   UpdateUserSchema,
-} from "./users";
+} from "./users/index.js";

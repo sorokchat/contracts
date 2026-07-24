@@ -1,5 +1,5 @@
 import z from "zod";
-import { NewUserSchema } from "./new-user.schema";
+import { NewUserSchema } from "./new-user.schema.js";
 
 export const UpdateUserSchema = NewUserSchema.partial();
 export type UpdateUserPayload = z.infer<typeof UpdateUserSchema>;
