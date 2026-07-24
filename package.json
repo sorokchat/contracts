@@ -2,13 +2,8 @@
   "name": "@sorokchat/contracts",
   "version": "1.0.0",
   "description": "Контракти для сервісу sorokchat",
-  "keywords": [
-    "Контракти",
-    "sorokchat"
-  ],
-  "files": [
-    "dist"
-  ],
+  "keywords": ["Контракти", "sorokchat"],
+  "files": ["dist"],
   "author": "sorokovsky",
   "scripts": {
     "clean": "rm -rf dist",
