@@ -4,6 +4,8 @@ export {
   type UpdateUserPayload,
   UpdateUserSchema,
   type GetUserPayload,
+  GetUserSchema,
+  type GetUserPayload,
   GetUserSchema
 } from "./users/index.js";
 export { type ErrorPayload, ErrorSchema } from './common/index.js';
