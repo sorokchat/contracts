@@ -4,4 +4,4 @@ export {
   type UpdateUserPayload,
   UpdateUserSchema,
 } from "./update-user.schema.js";
-export {type GetUserPayload, GetUserPayload } from './get-user.schema.js';
+export {type GetUserPayload, GetUserSchema } from './get-user.schema.js';
