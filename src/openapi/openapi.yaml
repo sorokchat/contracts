@@ -1,0 +1,37 @@
+openapi: 3.0.3
+info:
+  title: Sorokchat
+  description: Sorokchat - Український захищений месенджер
+  version: 1.0.0
+components:
+  schemas:
+    RegisterPayload:
+      type: object
+      required:
+        - login
+        - password
+      properties:
+        login:
+          type: string
+          description: Логін користувача
+          example: andrey
+        password:
+          type: string
+          description: Пароль користувача
+          example: <PASSWORD>
+        displayName:
+          type: string
+          description: Видиме ім'я користувача
+paths:
+  /authorization/register:
+    post:
+      tags:
+        - Авторизація
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterPayload"
+      responses:
+        204:
+          description: Успішна реєстрація

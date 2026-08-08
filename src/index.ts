@@ -6,6 +6,19 @@ export {
   type GetUserPayload,
   GetUserSchema,
 } from "./users/index.js";
-export { type ErrorPayload, ErrorSchema } from './common/index.js';
-export { AuthorizedSchema, type AuthorizedPayload, LoginSchema, type LoginPayload } from './authorization/index.js';
-export { NewChatSchema, UpdateChatSchema, GetChatSchema, type NewChatPayload, type UpdateChatPayload, type GetChatPayload } from './chats/index.js';
+export { type ErrorPayload, ErrorSchema } from "./common/index.js";
+export {
+  AuthorizedSchema,
+  type AuthorizedPayload,
+  LoginSchema,
+  type LoginPayload,
+} from "./authorization/index.js";
+export {
+  NewChatSchema,
+  UpdateChatSchema,
+  GetChatSchema,
+  type NewChatPayload,
+  type UpdateChatPayload,
+  type GetChatPayload,
+} from "./chats/index.js";
+export { resolveNestJsOpenApi } from "./openapi/index.js";
