@@ -3,7 +3,18 @@ info:
   title: Sorokchat
   description: Sorokchat - Український захищений месенджер
   version: 1.0.0
+security:
+  - bearerAuthorization: []
 components:
+  securitySchemes:
+    bearerAuthorization:
+      type: http
+      bearerFormat: JWT
+      scheme: bearer
+    cookieAuthorization:
+      type: apiKey
+      in: cookie
+      name: __Host-refresh-token
   schemas:
     RegisterPayload:
       type: object
@@ -22,9 +33,76 @@ components:
         displayName:
           type: string
           description: Видиме ім'я користувача
+    LoginPayload:
+      type: object
+      required:
+        - login
+        - password
+      properties:
+        login:
+          type: string
+          description: Логін користувача
+          example: andrey
+        password:
+          type: string
+          description: Пароль користувача
+          example: <PASSWORD>
+    AuthorizedPayload:
+      type: object
+      required:
+        - accessToken
+      properties:
+        accessToken:
+          type: string
+          description: Токен доступу
+          example: <TOKEN>
+    ErrorPayload:
+      type: object
+      required:
+        - message
+        - statusCode
+      properties:
+        message:
+          type: string
+          description: Повідомлення помилки
+          example: Не коректні данні
+        statusCode:
+          type: integer
+          description: Код помилки
+          example: 400
+  responses:
+    BadRequestResponse:
+      description: Не коректні данні
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorPayload"
+    UnauthorizedResponse:
+      description: Користувач не авторизований
+      headers:
+        WWW-Authenticate:
+          schema:
+            type: string
+            description: Бажаний спосіб авторизації
+            example: Bearer
+          description: Спосіб авторизації, який очікує сервер
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorPayload"
+    ForbiddenResponse:
+      description: У доступі відмовлено
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorPayload"
 paths:
   /authorization/register:
     post:
+      security: []
+      summary: Реєстрація
+      description: Реєстрація користувача у системі
+      operationId: register
       tags:
         - Авторизація
       requestBody:
@@ -33,5 +111,61 @@ paths:
             schema:
               $ref: "#/components/schemas/RegisterPayload"
       responses:
-        204:
+        201:
           description: Успішна реєстрація
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthorizedPayload"
+        403:
+          $ref: "#/components/responses/ForbiddenResponse"
+  /authorization/login:
+    put:
+      security: []
+      summary: Вхід
+      description: Вхід користувача у систему
+      operationId: login
+      tags:
+        - Авторизація
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginPayload"
+      responses:
+        200:
+          description: Успішний вхід
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthorizedPayload"
+        400:
+          $ref: "#/components/responses/BadRequestResponse"
+        403:
+          $ref: "#/components/responses/ForbiddenResponse"
+  /authorization/logout:
+    delete:
+      summary: Вихід із системи
+      description: Вихід користувача із системи
+      operationId: logout
+      tags:
+        - Авторизація
+      responses:
+        204:
+          description: Успішний вихід
+        401:
+          $ref: "#/components/responses/UnauthorizedResponse"
+  /authorization/refresh-tokens:
+    put:
+      summary: Оновлення токенів
+      description: Оновлює токени за наявності токена оновлення
+      operationId: refresh-tokens
+      responses:
+        200:
+          description: Успішне оновлення токенів
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthorizedPayload"
+        401:
+          $ref: "#/components/responses/UnauthorizedResponse"
