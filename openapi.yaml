@@ -536,6 +536,8 @@ paths:
       summary: Відкликання ролі
       description: Адмін може забрати роль учасника чату
       operationId: revoke-member
+      tags:
+        - Чати
       responses:
         204:
           description: Успішне відкликання ролі
