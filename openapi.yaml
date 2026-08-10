@@ -241,6 +241,8 @@ paths:
           $ref: "#/components/responses/BadRequestResponse"
         403:
           $ref: "#/components/responses/ForbiddenResponse"
+        409:
+          $ref: "#/components/responses/ConflictResponse"
   /authorization/login:
     post:
       security: []
