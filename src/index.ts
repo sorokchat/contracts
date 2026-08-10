@@ -12,13 +12,27 @@ export {
   type AuthorizedPayload,
   LoginSchema,
   type LoginPayload,
+  AUTHORIZATION_CONTROLLER,
+  AUTHORIZATION_ROUTES,
+  UNAUTHORIZED,
+  ACCESS_DENIED,
+  BAD_CREDENTIALS,
 } from "./authorization/index.js";
 export {
   NewChatSchema,
   UpdateChatSchema,
   GetChatSchema,
+  GetMemberSchema,
+  CHATS_ROUTES,
+  CHATS_CONTROLLER,
+  CAN_NOT_REMOVE_LAST_ADMIN,
+  CHAT_NOT_FOUND,
+  MEMBER_NOT_ADMIN,
+  ROLE_NOT_FOUND,
+  USER_NOT_MEMBER,
   type NewChatPayload,
   type UpdateChatPayload,
   type GetChatPayload,
+  type GetMemberPayload,
 } from "./chats/index.js";
 export { resolveNestJsOpenApi } from "./openapi/index.js";

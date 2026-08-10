@@ -33,6 +33,7 @@ components:
         displayName:
           type: string
           description: Видиме ім'я користувача
+          example: Андрій
     LoginPayload:
       type: object
       required:
@@ -70,6 +71,107 @@ components:
           type: integer
           description: Код помилки
           example: 400
+      additionalProperties: true
+    GetUserPayload:
+      type: object
+      required:
+        - id
+        - login
+        - displayName
+      properties:
+        id:
+          type: integer
+          description: Унікальний ідентифікатор користувача
+          example: 1
+        login:
+          type: string
+          description: Логін користувача
+          example: andrey
+        displayName:
+          type: string
+          description: Видиме ім'я користувача
+          example: Андрій
+        role:
+          type: string
+          description: Роль користувача
+          example: USER
+    CreateChatPayload:
+      type: object
+      required:
+        - name
+        - description
+      properties:
+        name:
+          type: string
+          description: Назва чату
+          example: Крутий чат
+        description:
+          type: string
+          description: Опис чату
+          example: Дуже крутий чат
+    UpdateChatPayload:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Назва чату
+          example: Крутий чат
+        description:
+          type: string
+          description: Опис чату
+          example: Дуже крутий чат
+    GetMemberPayload:
+      type: object
+      required:
+        - userId
+        - login
+        - displayName
+        - role
+      properties:
+        userId:
+          type: integer
+          description: Унікальний ідентифікатор користувача
+          example: 1
+        login:
+          type: string
+          description: Логін користувача
+          example: andrey
+        displayName:
+          type: string
+          description: Видеме ім'я користувача
+          example: Андрій
+        role:
+          type: string
+          description: Роль користувача у чаті
+          example: MEMBER
+    GetChatPayload:
+      type: object
+      required:
+        - id
+        - name
+        - description
+      properties:
+        id:
+          type: integer
+          description: Унікальний ідентифікатор чату
+          example: 1
+        name:
+          type: string
+          description: Назва чату
+          example: Крутий чат
+        description:
+          type: string
+          description: Опис чату
+          example: Дуже крутий чат
+        members:
+          type: array
+          minLength: 1
+          items:
+            $ref: "#/components/schemas/GetMemberPayload"
+    GetChatListPayload:
+      type: array
+      items:
+        $ref: "#/components/schemas/GetChatPayload"
   responses:
     BadRequestResponse:
       description: Не коректні данні
@@ -96,6 +198,18 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorPayload"
+    NotFoundResponse:
+      description: Не знайдено
+      content:
+        authorization/json:
+          schema:
+            $ref: "#/components/schemas/ErrorPayload"
+    ConflictResponse:
+      description: Сутність вже існує
+      content:
+        authorization/json:
+          schema:
+            $ref: "#/components/schemas/ErrorPayload"
 paths:
   /authorization/register:
     post:
@@ -113,14 +227,22 @@ paths:
       responses:
         201:
           description: Успішна реєстрація
+          headers:
+            Location:
+              schema:
+                type: string
+                description: Посилання на свої данні
+                example: authorization/profile
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthorizedPayload"
+        400:
+          $ref: "#/components/responses/BadRequestResponse"
         403:
           $ref: "#/components/responses/ForbiddenResponse"
   /authorization/login:
-    put:
+    post:
       security: []
       summary: Вхід
       description: Вхід користувача у систему
@@ -133,8 +255,14 @@ paths:
             schema:
               $ref: "#/components/schemas/LoginPayload"
       responses:
-        200:
+        201:
           description: Успішний вхід
+          headers:
+            Location:
+              schema:
+                type: string
+                description: Посилання на свої данні
+                example: authorization/profile
           content:
             application/json:
               schema:
@@ -160,6 +288,8 @@ paths:
       summary: Оновлення токенів
       description: Оновлює токени за наявності токена оновлення
       operationId: refresh-tokens
+      tags:
+        - Авторизація
       responses:
         200:
           description: Успішне оновлення токенів
@@ -169,3 +299,247 @@ paths:
                 $ref: "#/components/schemas/AuthorizedPayload"
         401:
           $ref: "#/components/responses/UnauthorizedResponse"
+  /authorization/profile:
+    get:
+      summary: Профіль
+      description: Можливість для користувача отримати свої данні
+      operationId: profile
+      tags:
+        - Авторизація
+      responses:
+        200:
+          description: Успішне отримання себе
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetUserPayload"
+        401:
+          $ref: "#/components/responses/UnauthorizedResponse"
+  /chats:
+    post:
+      summary: Новий чат
+      description: Створення нового чату у системі
+      operationId: createChat
+      tags:
+        - Чати
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateChatPayload"
+      responses:
+        201:
+          description: Успішне створення чату
+          headers:
+            Location:
+              schema:
+                type: string
+                description: Посилання на створений чат
+                example: /chats/by-id/1
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetChatPayload"
+        400:
+          $ref: "#/components/responses/BadRequestResponse"
+        401:
+          $ref: "#/components/responses/UnauthorizedResponse"
+  /chats/me:
+    get:
+      summary: Мої чати
+      description: Чати авторизованого користувача
+      operationId: my-chats
+      tags:
+        - Чати
+      responses:
+        200:
+          description: Успішне отримання чатів
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetChatListPayload"
+        401:
+          $ref: "#/components/responses/UnauthorizedResponse"
+  /chats/by-id/{id}:
+    parameters:
+      - in: path
+        required: true
+        name: id
+        schema:
+          type: integer
+          description: Унікальний ідентифікатор чату
+          example: 1
+    put:
+      summary: Оновлення чату
+      description: Адмін чату може оновити чат
+      operationId: update-chat
+      tags:
+        - Чати
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateChatPayload"
+      responses:
+        204:
+          description: Успішне оновлення чату
+        400:
+          $ref: "#/components/responses/BadRequestResponse"
+        401:
+          $ref: "#/components/responses/UnauthorizedResponse"
+        403:
+          $ref: "#/components/responses/ForbiddenResponse"
+        404:
+          $ref: "#/components/responses/NotFoundResponse"
+    delete:
+      summary: Видалення чату
+      description: Адмін може видалити чат
+      operationId: delete-chat
+      tags:
+        - Чати
+      responses:
+        204:
+          description: Успішне видалення чату
+        401:
+          $ref: "#/components/responses/UnauthorizedResponse"
+        403:
+          $ref: "#/components/responses/ForbiddenResponse"
+        404:
+          $ref: "#/components/responses/NotFoundResponse"
+  /chats/by-id/{id}/add-member/{userId}:
+    put:
+      parameters:
+        - name: id
+          schema:
+            type: integer
+            description: Унікальне ім'я чату
+            example: 1
+          in: path
+          required: true
+        - name: userId
+          schema:
+            type: integer
+            description: Унікальне ім'я користувача
+            example: 1
+          in: path
+          required: true
+      summary: Додати учасника
+      description: Адмін додає учасника
+      operationId: add-member-to-chat
+      tags:
+        - Чати
+      responses:
+        204:
+          description: Успішне додавання учасника до чату
+        401:
+          $ref: "#/components/responses/UnauthorizedResponse"
+        403:
+          $ref: "#/components/responses/ForbiddenResponse"
+        404:
+          $ref: "#/components/responses/NotFoundResponse"
+        409:
+          $ref: "#/components/responses/ConflictResponse"
+  /chats/by-id/{id}/remove-member/{userId}:
+    put:
+      parameters:
+        - name: id
+          schema:
+            type: integer
+            description: Унікальне ім'я чату
+            example: 1
+          in: path
+          required: true
+        - name: userId
+          schema:
+            type: integer
+            description: Унікальне ім'я користувача
+            example: 1
+          in: path
+          required: true
+      summary: Видалити учасника
+      description: Адмін видаляє учасника
+      operationId: remove-member-from-chat
+      tags:
+        - Чати
+      responses:
+        204:
+          description: Успішне видалення учасника із чату
+        401:
+          $ref: "#/components/responses/UnauthorizedResponse"
+        403:
+          $ref: "#/components/responses/ForbiddenResponse"
+        404:
+          $ref: "#/components/responses/NotFoundResponse"
+  /chats/by-id/{id}/leave:
+    put:
+      summary: Покинути чат
+      description: Учасник може покинути чат
+      operationId: leave-chat
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+            description: Унікальний ідентифікатор чату
+            example: 1
+      tags:
+        - Чати
+      responses:
+        204:
+          description: Успішний вихід із чату
+        401:
+          $ref: "#/components/responses/UnauthorizedResponse"
+        403:
+          $ref: "#/components/responses/ForbiddenResponse"
+  /chats/by-id/{id}/grant/{userId}/{role}:
+    put:
+      summary: Дати користувачу роль
+      description: Адмін може дати роль користувачу у чаті
+      operationId: grant-member
+      tags:
+        - Чати
+      parameters:
+        - name: id
+          schema:
+            type: integer
+            description: Унікальне ім'я чату
+            example: 1
+          in: path
+          required: true
+        - name: userId
+          schema:
+            type: integer
+            description: Унікальне ім'я користувача
+            example: 1
+          in: path
+          required: true
+        - name: role
+          in: path
+          required: true
+          schema:
+            type: string
+            description: Роль користувача у чаті
+      responses:
+        204:
+          description: Успішне надання ролі
+        401:
+          $ref: "#/components/responses/UnauthorizedResponse"
+        403:
+          $ref: "#/components/responses/ForbiddenResponse"
+        404:
+          $ref: "#/components/responses/NotFoundResponse"
+  /chats/by-id/{id}/revoke/{userId}:
+    put:
+      summary: Відкликання ролі
+      description: Адмін може забрати роль учасника чату
+      operationId: revoke-member
+      responses:
+        204:
+          description: Успішне відкликання ролі
+        401:
+          $ref: "#/components/responses/UnauthorizedResponse"
+        403:
+          $ref: "#/components/responses/ForbiddenResponse"
+        404:
+          $ref: "#/components/responses/NotFoundResponse"
