@@ -490,6 +490,8 @@ paths:
       responses:
         204:
           description: Успішний вихід із чату
+        400:
+          $ref: "#/components/responses/BadRequestResponse"
         401:
           $ref: "#/components/responses/UnauthorizedResponse"
         403:
