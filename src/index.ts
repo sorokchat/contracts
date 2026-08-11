@@ -32,6 +32,7 @@ export {
   MEMBER_NOT_ADMIN,
   ROLE_NOT_FOUND,
   USER_NOT_MEMBER,
+  MEMBER_EXISTS,
   type NewChatPayload,
   type UpdateChatPayload,
   type GetChatPayload,

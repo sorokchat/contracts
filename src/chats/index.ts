@@ -12,4 +12,5 @@ export {
   CHAT_NOT_FOUND,
   MEMBER_NOT_ADMIN,
   ROLE_NOT_FOUND,
+  MEMBER_EXISTS
 } from "./messages.js";
