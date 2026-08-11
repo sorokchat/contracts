@@ -558,6 +558,8 @@ paths:
       responses:
         204:
           description: Успішне відкликання ролі
+        400:
+          $ref: "#/components/responses/BadRequestResponse"
         401:
           $ref: "#/components/responses/UnauthorizedResponse"
         403:
