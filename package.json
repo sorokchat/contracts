@@ -40,24 +40,32 @@
   },
   "exports": {
     ".": {
-      "import": {
-        "node": {
-          "types": "./dist/index.d.ts",
-          "default": "./dist/node/index.js"
-        },
-        "browser": {
-          "types": "./dist/index.d.ts",
-          "default": "./dist/browser/index.js"
-        }
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "import": "./dist/browser/index.js"
       },
-      "require": {
-        "node": {
-          "types": "./dist/index.d.cts",
-          "default": "./dist/node/index.cjs"
-        },
+      "node": {
+        "types": "./dist/node/index.d.ts",
+        "import": "./dist/node/index.js"
+      },
+      "default": {
+        "types": "./dist/node/index.d.ts",
+        "import": "./dist/node/index.js"
+      }
+    },
+    "require": {
+      ".": {
         "browser": {
-          "types": "./dist/index.d.cts",
-          "default": "./dist/browser/index.cjs"
+          "types": "./dist/browser/index.d.cts",
+          "import": "./dist/browser/index.cjs"
+        },
+        "node": {
+          "types": "./dist/node/index.d.cts",
+          "import": "./dist/node/index.cjs"
+        },
+        "default": {
+          "types": "./dist/node/index.d.cts",
+          "import": "./dist/node/index.cjs"
         }
       }
     }
