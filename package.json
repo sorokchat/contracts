@@ -51,6 +51,7 @@
       "types": "./dist/node/index.d.ts",
       "import": "./dist/node/index.js"
     }
+  },
     },
     "require": {
       "browser": {
