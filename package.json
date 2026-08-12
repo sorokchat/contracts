@@ -46,13 +46,13 @@
           "default": "./dist/node/index.js"
         },
         "browser": {
-          "types": "./dist/browser/index.d.ts",
+          "types": "./dist/index.d.ts",
           "default": "./dist/browser/index.js"
         }
       },
       "require": {
         "node": {
-          "types": "./dist/node/index.d.cts",
+          "types": "./dist/index.d.cts",
           "default": "./dist/node/index.cjs"
         },
         "browser": {
