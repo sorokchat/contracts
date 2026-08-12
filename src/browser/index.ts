@@ -7,8 +7,8 @@ export {
   GetUserSchema,
   USER_EXIST,
   USER_NOT_FOUND,
-} from "./users/index.js";
-export { type ErrorPayload, ErrorSchema } from "./common/index.js";
+} from "../users/index.js";
+export { type ErrorPayload, ErrorSchema } from "../common/error.schema.js";
 export {
   AuthorizedSchema,
   type AuthorizedPayload,
@@ -19,7 +19,7 @@ export {
   UNAUTHORIZED,
   ACCESS_DENIED,
   BAD_CREDENTIALS,
-} from "./authorization/index.js";
+} from "../authorization/index.js";
 export {
   NewChatSchema,
   UpdateChatSchema,
@@ -37,4 +37,4 @@ export {
   type UpdateChatPayload,
   type GetChatPayload,
   type GetMemberPayload,
-} from "./chats/index.js";
+} from "../chats/index.js";
