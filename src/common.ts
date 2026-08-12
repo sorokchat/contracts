@@ -38,4 +38,3 @@ export {
   type GetChatPayload,
   type GetMemberPayload,
 } from "./chats/index.js";
-export { resolveNestJsOpenApi } from "./openapi/index.js";

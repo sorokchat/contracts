@@ -42,11 +42,13 @@
     ".": {
       "import": {
         "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
+        "node": "./dist/node.js",
+        "browser": "./dist/browser.js"
       },
       "require": {
         "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
+        "node": "./dist/node.js",
+        "browser": "./dist/browser.js"
       }
     }
   }
