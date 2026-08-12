@@ -52,21 +52,18 @@
       "import": "./dist/node/index.js"
     }
   },
+  "require": {
+    "browser": {
+      "types": "./dist/browser/index.d.cts",
+      "import": "./dist/browser/index.cjs"
     },
-    "require": {
-      "browser": {
-        "types": "./dist/browser/index.d.cts",
-        "import": "./dist/browser/index.cjs"
-      },
-      "node": {
-        "types": "./dist/node/index.d.cts",
-        "import": "./dist/node/index.cjs"
-      },
-      "default": {
-        "types": "./dist/node/index.d.cts",
-        "import": "./dist/node/index.cjs"
-      }
+    "node": {
+      "types": "./dist/node/index.d.cts",
+      "import": "./dist/node/index.cjs"
+    },
+    "default": {
+      "types": "./dist/node/index.d.cts",
+      "import": "./dist/node/index.cjs"
     }
-
   }
 }
