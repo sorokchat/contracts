@@ -4,7 +4,9 @@ export const MIN_PASSWORD_LENGTH = 6;
 export const MAX_PASSWORD_LENGTH = 100;
 
 export const NewUserSchema = z.object({
-  login: z.string({ message: "Логін має бути рядком" }),
+  login: z
+    .string({ message: "Логін має бути рядком" })
+    .nonempty({ message: "Логін має бути" }),
   password: z
     .string({ message: "Пароль має бути рядком" })
     .min(MIN_PASSWORD_LENGTH, {
