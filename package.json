@@ -41,15 +41,18 @@
   "exports": {
     "browser": {
       "types": "./dist/browser/index.d.ts",
-      "import": "./dist/browser/index.js"
+      "import": "./dist/browser/index.js",
+      "require": "./dist/browser/index.js"
     },
     "node": {
       "types": "./dist/node/index.d.ts",
-      "import": "./dist/node/index.js"
+      "import": "./dist/node/index.js",
+      "require": "./dist/node/index.js"
     },
     "default": {
       "types": "./dist/node/index.d.ts",
-      "import": "./dist/node/index.js"
+      "import": "./dist/node/index.js",
+      "require": "./dist/node/index.js"
     }
   }
 }
